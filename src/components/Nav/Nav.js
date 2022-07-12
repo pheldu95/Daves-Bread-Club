@@ -14,7 +14,7 @@ const Nav = (props) => {
         <div className="search">
           
         </div>
-        <Link className="nav-link" to="/">
+        <Link className="nav-link" to="/" style={{ borderBottomLeftRadius: "10px" }}>
           {/* Show this link if they are logged in or not,
           but call this link 'Home' if they are logged in,
           and call this link 'Login / Register' if they are not */}
@@ -25,6 +25,12 @@ const Nav = (props) => {
         {/* Always show this link since the about page is not protected */}
         <Link className="nav-link" to="/about">
           About
+        </Link>
+        <Link className="nav-link" to="/contact">
+          Contact
+        </Link>
+        <Link className="nav-link" to="/order">
+          Order
         </Link>
       </div>
     </div>

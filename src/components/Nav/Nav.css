@@ -3,38 +3,41 @@
     font-weight: 700;
     display: inline-block;
     color: #1C1D21;
-    padding-left: 10px;
-    padding-top: 15px;
+    padding-left: 200px;
+    padding-top: 5px;
 }
 
 .nav-title:hover {
-  color: #b90e0a;
+  color: #da4167;
 }
 
 .nav {
-  margin: 0 0 30px;
-  background-color: #f7f7f7;
+  margin: 0 0 40px;
+  background-color: #fffff7;
   overflow: hidden;
+  text-align: center;
 }
 
 .nav-link {
   float: left;
-  color: #f2f2f2;
-  background-color: #100c08;
+  color: #1C1D21;
+  background-color: #fffff7;
   text-align: center;
-  padding: 24px 10px;
+  padding: 40px 10px;
   text-decoration: none;
   font-size: 15px;
-
+  border-left: solid #B5B5B5 1px;
+  border-bottom: solid #B5B5B5 1px;
   /* these last two make the logout button in
   the nav bar look like another link */
-  border:none;
   cursor: pointer;
   outline:0;
+
+  transition: 150ms ease-in;
 }
 
 .nav-link:hover {
-  background-color: #b90e0a;
+  color: #da4167;
 }
 
 .nav-right {

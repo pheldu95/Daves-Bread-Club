@@ -14,5 +14,9 @@ code {
 }
 
 .container{
-  background-color: #f7f7f7;
+  background-color: #fffff7;
+}
+
+#root{
+  background-color: #fffff7;
 }
