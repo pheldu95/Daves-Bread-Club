@@ -1,6 +1,8 @@
 import './Order.css';
 import React, { useState } from 'react';
 
+//components
+import CheckoutForm from './CheckoutForm';
 //stripe stuff
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -10,12 +12,15 @@ import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 function Order() {
+    const options = {
+        // passing the client secret obtained from the server
+        clientSecret: '{{CLIENT_SECRET}}',
+    };
+
     return (
-
-        <div className="container">
-            <h1>Order a Loaf!</h1>
-        </div>
-
+        <Elements stripe={stripePromise} options={options}>
+            <CheckoutForm />
+        </Elements>
     );
 }
 
