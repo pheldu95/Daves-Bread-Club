@@ -11,6 +11,7 @@ import Nav from '../Nav/Nav';
 
 //all components to route to
 import LandingPage from '../LandingPage/LandingPage';
+import Order from '../Order/Order';
 
 class App extends Component {
   // componentDidMount() {
@@ -25,6 +26,10 @@ class App extends Component {
           <Route
             path="/"
             element={<LandingPage />}
+          />
+          <Route
+            path="/order"
+            element={<Order />}
           />
 
           {/* If none of the other routes matched, we will show a 404. */}
