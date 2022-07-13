@@ -2,13 +2,13 @@ const express = require('express');
 const app = express();
 require('dotenv').config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
-const uuid = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 // const router = express.Router();
 const axios = require('axios');
 // const sessionMiddleware = require('./modules/session-middleware');
 
 const bodyParser = require('body-parser');
-const port = 50001;
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -24,10 +24,11 @@ app.get('/test', (req, res) => {
 });
 
 app.post('/order', (req,res)=>{
+    console.log(req.body);
     const {product, token} = req.body;
     console.log(product);
     console.log("product price", product.price);
-    const idempotencyKey = uuid();
+    const idempotencyKey = uuidv4();
 
     return stripe.customers.create({
         email: token.email,
@@ -46,6 +47,6 @@ app.post('/order', (req,res)=>{
 })
 
 //listen
-app.listen(port, () => {
-    console.log(`Listening on port: ${port}`);
+app.listen(PORT, () => {
+    console.log(`Listening on port: ${PORT}`);
 });
