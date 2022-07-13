@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 // const data = require('./data/index');
 
 const bodyParser = require('body-parser');
