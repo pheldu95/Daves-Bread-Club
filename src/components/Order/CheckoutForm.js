@@ -1,44 +1,53 @@
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
-// import {withRouter} from 'react-router-dom';
-const CheckoutForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
+import { PaymentElement } from "@stripe/react-stripe-js";
+import { useState } from "react";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+import './Order.css';
 
-    const handleSubmit = async (event) => {
-        // We don't want to let default form submission happen here,
-        // which would refresh the page.
-        event.preventDefault();
+export default function CheckoutForm() {
+  const stripe = useStripe();
+  const elements = useElements();
 
-        if (!stripe || !elements) {
-            // Stripe.js has not yet loaded.
-            // Make sure to disable form submission until Stripe.js has loaded.
-            return;
-        }
+  const [message, setMessage] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-        const result = await stripe.confirmPayment({
-            //`Elements` instance that was used to create the Payment Element
-            elements,
-            confirmParams: {
-                return_url: "https://example.com/order/123/complete",
-            },
-        });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (result.error) {
-            // Show error to your customer (for example, payment details incomplete)
-            console.log(result.error.message);
-        } else {
-            // Your customer will be redirected to your `return_url`. For some payment
-            // methods like iDEAL, your customer will be redirected to an intermediate
-            // site first to authorize the payment, then redirected to the `return_url`.
-        }
-    };
+    if (!stripe || !elements) {
+      // Stripe.js has not yet loaded.
+      // Make sure to disable form submission until Stripe.js has loaded.
+      return;
+    }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <PaymentElement />
-            <button disabled={!stripe}>Submit</button>
-        </form>
-    )
-};
+    setIsProcessing(true);
 
-export default CheckoutForm;
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: `${window.location.origin}/completion`,
+      },
+    });
+
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message);
+    } else {
+      setMessage("An unexpected error occured.");
+    }
+
+    setIsProcessing(false);
+  };
+
+  return (
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <PaymentElement id="payment-element" />
+      <button className="btn zoom-out zoom-out--red" disabled={isProcessing || !stripe || !elements} id="submit">
+        <span id="button-text">
+          {isProcessing ? "Processing ... " : "Pay now"}
+        </span>
+      </button>
+      {/* Show any error or success messages */}
+      {message && <div id="payment-message">{message}</div>}
+    </form>
+  );
+}
